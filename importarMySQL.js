@@ -35,7 +35,7 @@ function importCSV() {
     const importTime = end[0] + end[1] / 1e9;  // Convertir a segundos
     console.log(`Datos importados con éxito en ${importTime.toFixed(4)} segundos.`);
 
-    // Reporte HTML mejorado
+    // Reporte HTML 
     const reportHTML = `
     <!DOCTYPE html>
     <html lang="es">
@@ -73,7 +73,7 @@ function importCSV() {
     </head>
     <body>
         <div class="container">
-            <h1>Reporte de Importación de Datos</h1>
+            <h1>Reporte de Importación de Datos MySQL</h1>
             <p>Tiempo de importación: <strong>${importTime.toFixed(4)}</strong> segundos</p>
             <canvas id="myChart"></canvas>
         </div>
