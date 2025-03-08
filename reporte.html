@@ -1,42 +1,4 @@
-const mysql = require('mysql2');
-const fs = require('fs');
 
-// Conectar a MySQL
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '12345678',
-    database: 'testdb'
-});
-
-const filePath = './data.csv';
-
-// Función para importar datos desde un archivo CSV
-function importCSV() {
-    const start = process.hrtime();  // Iniciar medición del tiempo
-
-    const data = fs.readFileSync(filePath, 'utf8');
-    const rows = data.split('\n').slice(1);  // Saltar la cabecera
-
-    rows.forEach(row => {
-        const [nombre, edad, texto] = row.split(',');
-        if (nombre && edad && texto) {
-            connection.query(
-                'INSERT INTO personas (nombre, edad, texto) VALUES (?, ?, ?)',
-                [nombre, parseInt(edad), texto],
-                (err) => {
-                    if (err) throw err;
-                }
-            );
-        }
-    });
-
-    const end = process.hrtime(start);
-    const importTime = end[0] + end[1] / 1e9;  // Convertir a segundos
-    console.log(`Datos importados con éxito en ${importTime.toFixed(4)} segundos.`);
-
-    // Reporte HTML mejorado
-    const reportHTML = `
     <!DOCTYPE html>
     <html lang="es">
     <head>
@@ -74,7 +36,7 @@ function importCSV() {
     <body>
         <div class="container">
             <h1>Reporte de Importación de Datos</h1>
-            <p>Tiempo de importación: <strong>${importTime.toFixed(4)}</strong> segundos</p>
+            <p>Tiempo de importación: <strong>0.1064</strong> segundos</p>
             <canvas id="myChart"></canvas>
         </div>
         <script>
@@ -84,7 +46,7 @@ function importCSV() {
                 data: {
                     labels: ['Tiempo de Importación', 'Otros'],
                     datasets: [{
-                        data: [${importTime.toFixed(4)}, 10 - ${importTime.toFixed(4)}],
+                        data: [0.1064, 10 - 0.1064],
                         backgroundColor: ['#36a2eb', '#ff6384']
                     }]
                 },
@@ -98,12 +60,4 @@ function importCSV() {
             });
         </script>
     </body>
-    </html>`;
-
-    // Guardar el reporte
-    fs.writeFileSync('reporte.html', reportHTML);
-    console.log("Reporte generado: 'reporte.html'");
-}
-
-importCSV();
-connection.end();
+    </html>
